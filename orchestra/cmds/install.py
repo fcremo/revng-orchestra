@@ -25,4 +25,7 @@ def handle_install(args):
         exit(1)
 
     executor = Executor(args)
-    executor.run(build.install, no_force=args.no_force, no_deps=args.no_deps)
+    failed = executor.run(build.install, no_force=args.no_force, no_deps=args.no_deps)
+
+    exitcode = 1 if failed else 0
+    exit(exitcode)

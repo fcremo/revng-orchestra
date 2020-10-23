@@ -72,6 +72,8 @@ class Executor:
         status_bar.status_format = msg
         status_bar.close()
 
+        return list(self._failed_actions)
+
     def _collect_actions(self, action: Action, force=False, no_deps=False):
         if not force and action.is_satisfied(recursively=True):
             return

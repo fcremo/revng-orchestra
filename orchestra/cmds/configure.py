@@ -21,4 +21,7 @@ def handle_configure(args):
         exit(1)
 
     executor = Executor(args)
-    executor.run(build.configure, no_force=args.no_force, no_deps=args.no_deps)
+    failed = executor.run(build.configure, no_force=args.no_force, no_deps=args.no_deps)
+
+    exitcode = 1 if failed else 0
+    exit(exitcode)
