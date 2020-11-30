@@ -7,7 +7,6 @@ from ..model.configuration import Configuration
 def install_subcommand(sub_argparser):
     cmd_parser = sub_argparser.add_parser("clone", handler=handle_clone, help="Clone a component")
     cmd_parser.add_argument("component")
-    cmd_parser.add_argument("--no-force", action="store_true", help="Don't force execution of the root action")
 
 
 def handle_clone(args):
@@ -22,8 +21,9 @@ def handle_clone(args):
     if not build.component.clone:
         print("This component does not have a git repository configured!")
         return
-    executor = Executor(args)
-    failed = executor.run(build.component.clone, no_force=args.no_force)
+
+    executor = Executor(args, [build.clone])
+    failed = executor.run()
 
     exitcode = 1 if failed else 0
     exit(exitcode)
