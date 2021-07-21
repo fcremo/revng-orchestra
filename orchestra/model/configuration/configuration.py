@@ -30,6 +30,7 @@ class Configuration:
         no_merge=False,
         keep_tmproot=False,
         run_tests=False,
+        max_lfs_retries=1,
     ):
         self.components: Dict[str, Component] = {}
 
@@ -41,6 +42,9 @@ class Configuration:
 
         # Enables creation of binary archives for all install actions that get run
         self.create_binary_archives = create_binary_archives
+
+        # Max lfs fetch attempts
+        self.max_lfs_retries = max_lfs_retries
 
         # Disables merging files into orchestra root after building
         # Useful for debugging a broken component without touching orchestra root
