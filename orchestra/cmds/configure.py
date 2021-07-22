@@ -3,6 +3,7 @@ from loguru import logger
 from . import SubCommandParser
 from .common import execution_options, build_options
 from ..executor import Executor
+from ..gitutils.lfs import assert_lfs_installed
 from ..model.configuration import Configuration
 
 
@@ -25,6 +26,8 @@ def handle_configure(args):
         use_config_cache=args.config_cache,
         run_tests=args.test,
     )
+
+    assert_lfs_installed()
 
     actions = set()
     for component in args.components:

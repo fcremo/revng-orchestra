@@ -8,6 +8,7 @@ from . import SubCommandParser
 from ..model.configuration import Configuration
 from ..actions.util import run_internal_subprocess, try_run_internal_subprocess
 from ..gitutils import is_root_of_git_repo
+from ..gitutils.lfs import assert_lfs_installed
 
 
 def install_subcommand(sub_argparser: SubCommandParser):
@@ -20,6 +21,8 @@ def handle_update(args):
     config = Configuration(use_config_cache=args.config_cache)
     failed_pulls = []
     failed_clones = []
+
+    assert_lfs_installed()
 
     if not args.no_config:
         logger.info("Updating orchestra configuration")

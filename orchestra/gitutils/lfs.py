@@ -1,3 +1,4 @@
+from functools import lru_cache
 from pathlib import Path
 from typing import List, Optional, Union
 
@@ -43,10 +44,17 @@ def fetch(
     run_git(*checkout_cmd, workdir=workdir)
 
 
+@lru_cache()
 def assert_lfs_installed():
     """Checks whether git-lfs is installed and raises an OrchestraException if it is not"""
     try:
         run_git("lfs")
-        return True
     except Exception:
         raise OrchestraException("Could not invoke `git lfs`, is it installed?")
+
+    try:
+        run_git("config", "--get", "filter.lfs.smudge")
+    except OrchestraException:
+        raise OrchestraException("GIT LFS does not seem to be installed properly. Run `git lfs install`.")
+
+    return True
